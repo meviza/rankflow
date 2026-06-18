@@ -41,7 +41,7 @@ export interface ScanResult {
   scores: SEOScores;
   report: Report | null;
   fixes: FixSuggestion[];
-  provider: "claude" | "gpt" | "deepseek" | "glm";
+  provider: "gemini" | "groq" | "deepseek" | "claude" | "gpt" | "glm";
 }
 
 export interface UserProfile {

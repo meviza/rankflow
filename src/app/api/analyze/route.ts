@@ -172,9 +172,9 @@ export async function POST(request: Request) {
       language: string;
     };
 
-    if (!["claude", "gpt", "deepseek", "glm"].includes(provider)) {
+    if (!["gemini", "groq", "deepseek", "claude", "gpt", "glm"].includes(provider)) {
       return NextResponse.json(
-        { success: false, error: "Invalid provider. Choose: claude, gpt, deepseek, glm" },
+        { success: false, error: "Invalid provider. Choose: gemini, groq, deepseek, claude, gpt, glm" },
         { status: 400 }
       );
     }
