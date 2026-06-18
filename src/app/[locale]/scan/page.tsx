@@ -405,7 +405,7 @@ export default function ScanPage() {
               <ScoreCard icon={Shield} label="Technical" score={scan.scores.technical} color="bg-blue-500" />
               <ScoreCard icon={Layers} label="OnPage" score={scan.scores.onPage} color="bg-cyan-500" />
               <ScoreCard icon={FileText} label="Content" score={scan.scores.content} color="bg-emerald-500" />
-              <ScoreCard icon={Zap} label="GEO" score={scan.scores.geo} color="bg-purple-500" />
+              <ScoreCard icon={Zap} label="GEO" score={scan.scores.geo} color="bg-emerald-500" />
             </div>
 
             <Card className="bg-white/[0.03] border-white/[0.06]">

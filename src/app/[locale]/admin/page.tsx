@@ -39,7 +39,7 @@ const providerColors: Record<string, string> = {
   google: "bg-blue-500/10 text-blue-500",
   openai: "bg-green-500/10 text-green-500",
   pagespeed: "bg-orange-500/10 text-orange-500",
-  semrush: "bg-purple-500/10 text-purple-500",
+  semrush: "bg-emerald-500/10 text-emerald-500",
   ahrefs: "bg-cyan-500/10 text-cyan-500",
 };
 

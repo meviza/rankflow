@@ -1,15 +1,14 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { FileText, ExternalLink, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
 const scores = [
-  { label: "SEO Score", value: "78", color: "text-emerald-500" },
-  { label: "GEO Score", value: "64", color: "text-violet-500" },
-  { label: "Performance", value: "92", color: "text-amber-500" },
-  { label: "Accessibility", value: "85", color: "text-sky-500" },
+  { label: "SEO Score", value: "78", color: "text-emerald-400" },
+  { label: "GEO Score", value: "64", color: "text-cyan-400" },
+  { label: "Performance", value: "92", color: "text-amber-400" },
+  { label: "Accessibility", value: "85", color: "text-sky-400" },
 ]
 
 const findings = [
@@ -21,13 +20,11 @@ const findings = [
 export default function DemoReport() {
   return (
     <section id="demo" className="py-20 lg:py-28 bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             See What Your{" "}
-            <span className="bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
-              Report
-            </span>{" "}
+            <span className="text-gradient">Report</span>{" "}
             Looks Like
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
@@ -35,15 +32,9 @@ export default function DemoReport() {
           </p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mx-auto mt-14 max-w-4xl"
-        >
-          <div className="overflow-hidden rounded-xl border shadow-lg">
-            <div className="flex items-center gap-2 border-b bg-muted/50 px-4 py-3">
+        <div className="mx-auto mt-14 max-w-4xl animate-fade-up">
+          <div className="overflow-hidden rounded-xl border border-white/[0.06] shadow-lg">
+            <div className="flex items-center gap-2 border-b border-white/[0.06] bg-muted/50 px-4 py-3">
               <div className="flex gap-1.5">
                 <div className="size-3 rounded-full bg-red-400" />
                 <div className="size-3 rounded-full bg-amber-400" />
@@ -56,8 +47,8 @@ export default function DemoReport() {
             </div>
 
             <div className="bg-background p-6 sm:p-8">
-              <div className="flex items-center gap-4 border-b pb-6">
-                <div className="flex size-14 items-center justify-center rounded-xl bg-violet-100 text-violet-600 dark:bg-violet-900/50 dark:text-violet-400">
+              <div className="flex items-center gap-4 border-b border-white/[0.06] pb-6">
+                <div className="flex size-14 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
                   <FileText className="size-7" />
                 </div>
                 <div>
@@ -68,7 +59,7 @@ export default function DemoReport() {
 
               <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {scores.map((score) => (
-                  <Card key={score.label} className="text-center">
+                  <Card key={score.label} className="border-white/[0.06] bg-white/[0.02] text-center">
                     <CardContent className="p-4">
                       <div className={`text-3xl font-bold ${score.color}`}>{score.value}</div>
                       <div className="mt-1 text-xs text-muted-foreground">{score.label}</div>
@@ -85,7 +76,7 @@ export default function DemoReport() {
                   {findings.map((finding) => (
                     <div
                       key={finding.label}
-                      className="flex items-center justify-between rounded-lg border px-4 py-3"
+                      className="flex items-center justify-between rounded-lg border border-white/[0.06] px-4 py-3"
                     >
                       <div className="flex items-center gap-3">
                         <span
@@ -110,7 +101,7 @@ export default function DemoReport() {
               <div className="mt-8 flex justify-center">
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-700 hover:to-fuchsia-700"
+                  className="bg-emerald-600 text-white hover:bg-emerald-700"
                 >
                   See Full Report
                   <ArrowRight className="size-4" />
@@ -118,7 +109,7 @@ export default function DemoReport() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

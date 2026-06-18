@@ -42,11 +42,11 @@ export default function RequestBox() {
 
   return (
     <section className="py-20 lg:py-28">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Request a{" "}
-            <span className="bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
+            <span className="text-gradient">
               Feature
             </span>
           </h2>
@@ -62,10 +62,10 @@ export default function RequestBox() {
           transition={{ duration: 0.5 }}
           className="mx-auto mt-10 max-w-lg"
         >
-          <Card>
+          <Card className="border-white/[0.06] bg-white/[0.02]">
             <CardHeader>
               <div className="flex items-center gap-3">
-                <div className="flex size-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-900/50 dark:text-amber-400">
+                <div className="flex size-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400">
                   <Lightbulb className="size-5" />
                 </div>
                 <div>
@@ -120,7 +120,7 @@ export default function RequestBox() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-700 hover:to-fuchsia-700"
+                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
                     disabled={submitting}
                   >
                     {submitting ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}

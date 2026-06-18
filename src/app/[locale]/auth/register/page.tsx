@@ -21,21 +21,21 @@ const plans = [
     name: 'Starter',
     price: 'Free',
     icon: Rocket,
-    color: 'border-violet-500/40 hover:border-violet-500 data-[selected=true]:border-violet-500 data-[selected=true]:bg-violet-500/10',
+    color: 'border-emerald-500/40 hover:border-emerald-500 data-[selected=true]:border-emerald-500 data-[selected=true]:bg-emerald-500/10',
   },
   {
     id: 'pro' as const,
     name: 'Pro',
     price: '$79/mo',
     icon: Zap,
-    color: 'border-purple-500/40 hover:border-purple-500 data-[selected=true]:border-purple-500 data-[selected=true]:bg-purple-500/10',
+    color: 'border-cyan-500/40 hover:border-cyan-500 data-[selected=true]:border-cyan-500 data-[selected=true]:bg-cyan-500/10',
   },
   {
     id: 'agency' as const,
     name: 'Agency',
     price: '$199/mo',
     icon: Building2,
-    color: 'border-fuchsia-500/40 hover:border-fuchsia-500 data-[selected=true]:border-fuchsia-500 data-[selected=true]:bg-fuchsia-500/10',
+    color: 'border-teal-500/40 hover:border-teal-500 data-[selected=true]:border-teal-500 data-[selected=true]:bg-teal-500/10',
   },
 ] as const;
 
@@ -136,8 +136,8 @@ export default function RegisterPage() {
   return (
     <div className="relative min-h-screen flex items-center justify-center py-12 px-4">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-violet-500/20 via-purple-500/10 to-transparent blur-3xl" />
-        <div className="absolute right-1/4 bottom-0 h-[400px] w-[400px] rounded-full bg-fuchsia-500/10 blur-3xl" />
+        <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-emerald-500/15 via-teal-500/8 to-transparent blur-3xl" />
+        <div className="absolute right-1/4 bottom-0 h-[400px] w-[400px] rounded-full bg-cyan-500/8 blur-3xl" />
       </div>
 
       <div className="w-full max-w-lg">
@@ -152,7 +152,7 @@ export default function RegisterPage() {
         <Card className="border-white/10 bg-card/80 backdrop-blur-xl shadow-2xl">
           <CardHeader className="space-y-1 text-center pb-2">
             <Link href="/" className="inline-block mx-auto">
-              <span className="bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent text-2xl font-bold">
+              <span className="text-gradient text-2xl font-bold">
                 RankFlow
               </span>
             </Link>
@@ -281,7 +281,7 @@ export default function RegisterPage() {
                       )}
                     >
                       {plan.id === 'pro' && (
-                        <span className="absolute -top-2 text-[10px] bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white px-2 py-0.5 rounded-full font-medium">
+                        <span className="absolute -top-2 text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-medium">
                           Popular
                         </span>
                       )}
@@ -290,14 +290,14 @@ export default function RegisterPage() {
                           className={cn(
                             'flex size-9 items-center justify-center rounded-lg',
                             selectedPlan === plan.id
-                              ? 'bg-violet-500/20 text-violet-400'
+                              ? 'bg-emerald-500/20 text-emerald-400'
                               : 'bg-muted text-muted-foreground'
                           )}
                         >
                           <plan.icon className="size-4" />
                         </div>
                         {selectedPlan === plan.id && (
-                          <div className="absolute -top-1 -right-1 size-4 bg-violet-500 rounded-full flex items-center justify-center">
+                          <div className="absolute -top-1 -right-1 size-4 bg-emerald-500 rounded-full flex items-center justify-center">
                             <Check className="size-2.5 text-white" />
                           </div>
                         )}
@@ -333,7 +333,7 @@ export default function RegisterPage() {
                 type="submit"
                 disabled={loading}
                 size="lg"
-                className="w-full h-11 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-700 hover:to-fuchsia-700"
+                className="w-full h-11 bg-emerald-600 text-white hover:bg-emerald-700"
               >
                 {loading ? (
                   <Loader2 className="size-4 animate-spin" />

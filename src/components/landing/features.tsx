@@ -1,15 +1,6 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
-import {
-  Search,
-  Bot,
-  Map,
-  Globe,
-  FileText,
-  Wrench,
-} from "lucide-react"
+import { Search, Bot, Map, Globe, FileText, Wrench } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
 const features = [
@@ -51,19 +42,6 @@ const features = [
   },
 ]
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-}
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-}
-
 function FeatureCard({
   icon: Icon,
   title,
@@ -74,12 +52,12 @@ function FeatureCard({
   description: string
 }) {
   return (
-    <Card className="group border transition-all duration-300 hover:border-violet-200 hover:shadow-md dark:hover:border-violet-800">
+    <Card className="group border-white/[0.06] bg-white/[0.02] transition-all duration-300 hover:border-emerald-500/30 hover:bg-white/[0.04]">
       <CardContent className="p-6">
-        <div className="flex size-12 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-violet-900/50 dark:text-violet-400 group-hover:bg-violet-200 dark:group-hover:bg-violet-800/50 transition-colors">
-          <Icon className="size-6" />
+        <div className="flex size-11 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
+          <Icon className="size-5" />
         </div>
-        <h3 className="mt-4 text-lg font-semibold">{title}</h3>
+        <h3 className="mt-4 text-base font-semibold">{title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {description}
         </p>
@@ -89,37 +67,24 @@ function FeatureCard({
 }
 
 export default function Features() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
-
   return (
     <section id="features" className="py-20 lg:py-28">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Everything You Need to{" "}
-            <span className="bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
-              Rank Higher
-            </span>
+            <span className="text-gradient">Rank Higher</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
             From traditional SEO to generative AI optimization, RankFlow covers every channel where your audience discovers content.
           </p>
         </div>
 
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
-            <motion.div key={feature.title} variants={cardVariants}>
-              <FeatureCard {...feature} />
-            </motion.div>
+            <FeatureCard key={feature.title} {...feature} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

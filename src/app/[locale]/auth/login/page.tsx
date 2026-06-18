@@ -73,8 +73,8 @@ export default function LoginPage() {
   return (
     <div className="relative min-h-screen flex items-center justify-center py-12 px-4">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-violet-500/20 via-purple-500/10 to-transparent blur-3xl" />
-        <div className="absolute right-1/4 bottom-0 h-[400px] w-[400px] rounded-full bg-fuchsia-500/10 blur-3xl" />
+        <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-emerald-500/15 via-teal-500/8 to-transparent blur-3xl" />
+        <div className="absolute right-1/4 bottom-0 h-[400px] w-[400px] rounded-full bg-cyan-500/8 blur-3xl" />
       </div>
 
       <div className="w-full max-w-md">
@@ -89,7 +89,7 @@ export default function LoginPage() {
         <Card className="border-white/10 bg-card/80 backdrop-blur-xl shadow-2xl">
           <CardHeader className="space-y-1 text-center pb-2">
             <Link href="/" className="inline-block mx-auto">
-              <span className="bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent text-2xl font-bold">
+              <span className="text-gradient text-2xl font-bold">
                 RankFlow
               </span>
             </Link>
@@ -171,7 +171,7 @@ export default function LoginPage() {
                 type="submit"
                 disabled={loading}
                 size="lg"
-                className="w-full h-11 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-700 hover:to-fuchsia-700"
+                className="w-full h-11 bg-emerald-600 text-white hover:bg-emerald-700"
               >
                 {loading ? (
                   <Loader2 className="size-4 animate-spin" />

@@ -8,7 +8,7 @@ const productLinks = [
 ]
 
 const companyLinks = [
-  { href: "#about", label: "About" },
+  { href: "#", label: "About" },
   { href: "#", label: "Blog" },
   { href: "#", label: "Contact" },
 ]
@@ -27,14 +27,12 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-16">
+    <footer className="border-t border-white/[0.06] bg-muted/30">
+      <div className="mx-auto max-w-6xl px-4 py-12 lg:px-8 lg:py-16">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <Link href="/" className="text-xl font-bold tracking-tight">
-              <span className="bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
-                RankFlow
-              </span>
+              <span className="text-gradient">RankFlow</span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
               AI-powered SEO & GEO analytics platform. Optimize for Google and AI search engines in one place.
@@ -45,7 +43,7 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="flex size-9 items-center justify-center rounded-lg border text-muted-foreground transition-colors hover:border-violet-300 hover:text-violet-600"
+                  className="flex size-9 items-center justify-center rounded-lg border border-white/[0.06] text-muted-foreground transition-colors hover:border-emerald-500/30 hover:text-emerald-400"
                 >
                   <social.icon className="size-4" />
                 </a>
@@ -102,7 +100,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t pt-8">
+        <div className="mt-10 border-t border-white/[0.06] pt-8">
           <p className="text-center text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} RankFlow. All rights reserved.
           </p>
