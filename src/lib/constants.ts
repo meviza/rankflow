@@ -9,10 +9,11 @@ export const PACKAGES = [
     tier: "Starter",
     price: "free",
     features: [
-      "1 site scan/month",
-      "Basic SEO report",
+      "3 site scans/month",
+      "SEO + GEO report",
       "PDF export",
       "Turkish + English",
+      "Free AI: Gemini + Groq",
     ],
     highlighted: false,
   },
@@ -25,7 +26,7 @@ export const PACKAGES = [
       "AI improvement roadmap",
       "5 languages",
       "12-month report history",
-      "Claude + GPT + DeepSeek AI",
+      "Gemini Flash + Groq + DeepSeek AI",
     ],
     highlighted: true,
   },
@@ -49,25 +50,41 @@ export const PACKAGES = [
 ] as const;
 
 export const AI_PROVIDERS = {
-  claude: {
-    name: "Claude",
-    modelId: "claude-sonnet-4-20250514",
-    cost: 2,
+  gemini: {
+    name: "Gemini Flash",
+    modelId: "gemini-2.5-flash",
+    cost: 0,
+    free: true,
   },
-  gpt: {
-    name: "GPT",
-    modelId: "gpt-4o",
-    cost: 3,
+  groq: {
+    name: "Groq Llama",
+    modelId: "llama-3.3-70b-versatile",
+    cost: 0,
+    free: true,
   },
   deepseek: {
     name: "DeepSeek",
     modelId: "deepseek-chat",
     cost: 1,
+    free: false,
+  },
+  claude: {
+    name: "Claude",
+    modelId: "claude-sonnet-4-20250514",
+    cost: 3,
+    free: false,
+  },
+  gpt: {
+    name: "GPT-4o",
+    modelId: "gpt-4o",
+    cost: 3,
+    free: false,
   },
   glm: {
-    name: "GLM",
+    name: "GLM-4",
     modelId: "glm-4-plus",
     cost: 2,
+    free: false,
   },
 } as const;
 
