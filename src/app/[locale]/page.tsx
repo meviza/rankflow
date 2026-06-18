@@ -6,6 +6,7 @@ import Navbar from '@/components/landing/navbar';
 import Hero from '@/components/landing/hero';
 import Features from '@/components/landing/features';
 import DemoReport from '@/components/landing/demo-report';
+import AnalyticsSection from '@/components/landing/analytics-section';
 import Pricing from '@/components/landing/pricing';
 import Faq from '@/components/landing/faq';
 import RequestBox from '@/components/landing/request-box';
@@ -26,6 +27,7 @@ export default function Home({ params }: { params: Promise<{ locale: string }> }
         <Hero />
         <Features />
         <DemoReport />
+        <AnalyticsSection />
         <Pricing />
         <Faq />
         <RequestBox />

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { type AIProvider } from "@/lib/ai/providers";
 import { LANGUAGES } from "@/lib/constants";
-import { ScanResult } from "@/lib/types";
+import { ScanResult, FixSuggestion } from "@/lib/types";
 import {
   Search,
   Loader2,
@@ -20,7 +20,19 @@ import {
   CheckCircle2,
   XCircle,
   Zap,
+  ChevronDown,
 } from "lucide-react";
+
+interface AutofixResult {
+  fixId: string;
+  loading: boolean;
+  error: string | null;
+  code: string | null;
+  explanation: string | null;
+  steps: string[];
+  estimatedImpact: string | null;
+  expanded: boolean;
+}
 
 type ScanStatus = "idle" | "scanning" | "enhancing" | "done" | "error";
 
@@ -100,6 +112,7 @@ export default function ScanPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"scores" | "fixes" | "report">("scores");
   const [scanProgress, setScanProgress] = useState(0);
+  const [autofixResults, setAutofixResults] = useState<Record<string, AutofixResult>>({});
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const simulateProgress = useCallback(() => {
@@ -189,6 +202,61 @@ export default function ScanPage() {
     a.click();
     URL.revokeObjectURL(a.href);
   }, [report, scan]);
+
+  const handleAutofix = useCallback(async (fix: FixSuggestion) => {
+    if (!scan) return;
+    setAutofixResults((prev) => ({
+      ...prev,
+      [fix.id]: { fixId: fix.id, loading: true, error: null, code: null, explanation: null, steps: [], estimatedImpact: null, expanded: true },
+    }));
+
+    try {
+      const res = await fetch("/api/autofix", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          scanId: scan.id,
+          fixId: fix.id,
+          provider,
+          url: scan.url,
+          description: fix.description,
+          severity: fix.severity,
+          type: fix.type,
+        }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        throw new Error(data.error ?? "Auto-fix failed");
+      }
+      setAutofixResults((prev) => ({
+        ...prev,
+        [fix.id]: {
+          fixId: fix.id,
+          loading: false,
+          error: null,
+          code: data.code,
+          explanation: data.explanation,
+          steps: data.steps ?? [],
+          estimatedImpact: data.estimatedImpact,
+          expanded: true,
+        },
+      }));
+    } catch (e) {
+      setAutofixResults((prev) => ({
+        ...prev,
+        [fix.id]: {
+          fixId: fix.id,
+          loading: false,
+          error: e instanceof Error ? e.message : "Auto-fix failed",
+          code: null,
+          explanation: null,
+          steps: [],
+          estimatedImpact: null,
+          expanded: true,
+        },
+      }));
+    }
+  }, [scan, provider]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -450,29 +518,87 @@ export default function ScanPage() {
                         No issues found!
                       </div>
                     ) : (
-                      scan.fixes.map((fix) => (
-                        <div
-                          key={fix.id}
-                          className="flex items-start gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]"
-                        >
-                          <div className="shrink-0 mt-0.5">
-                            {fix.severity === "critical" || fix.severity === "high" ? (
-                              <AlertTriangle className="size-4 text-red-400" />
-                            ) : (
-                              <AlertTriangle className="size-4 text-amber-400" />
+                      scan.fixes.map((fix) => {
+                        const afResult = autofixResults[fix.id];
+                        return (
+                          <div key={fix.id}>
+                            <div className="flex items-start gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                              <div className="shrink-0 mt-0.5">
+                                {fix.severity === "critical" || fix.severity === "high" ? (
+                                  <AlertTriangle className="size-4 text-red-400" />
+                                ) : (
+                                  <AlertTriangle className="size-4 text-amber-400" />
+                                )}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm">{fix.description}</p>
+                                {fix.code && (
+                                  <pre className="mt-2 p-2 rounded bg-black/30 text-xs text-muted-foreground overflow-x-auto">
+                                    <code>{fix.code}</code>
+                                  </pre>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <button
+                                  onClick={() => handleAutofix(fix)}
+                                  disabled={afResult?.loading}
+                                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                  {afResult?.loading ? (
+                                    <Loader2 className="size-3 animate-spin" />
+                                  ) : (
+                                    <Sparkles className="size-3" />
+                                  )}
+                                  Fix
+                                </button>
+                                <FixBadge severity={fix.severity} />
+                              </div>
+                            </div>
+                            {afResult && !afResult.loading && !afResult.error && afResult.code && (
+                              <div className="mt-1 ml-7 border-l-2 border-emerald-500/30 pl-3">
+                                <button
+                                  onClick={() => setAutofixResults((prev) => ({
+                                    ...prev,
+                                    [fix.id]: { ...prev[fix.id], expanded: !prev[fix.id].expanded },
+                                  }))}
+                                  className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors mb-1"
+                                >
+                                  <ChevronDown className={`size-3 transition-transform ${afResult.expanded ? "rotate-0" : "-rotate-90"}`} />
+                                  AI Fix
+                                </button>
+                                {afResult.expanded && (
+                                  <div className="space-y-2">
+                                    {afResult.explanation && (
+                                      <p className="text-xs text-muted-foreground">{afResult.explanation}</p>
+                                    )}
+                                    <pre className="p-2 rounded bg-black/40 text-xs text-emerald-300 overflow-x-auto border border-emerald-500/10">
+                                      <code>{afResult.code}</code>
+                                    </pre>
+                                    {afResult.steps.length > 0 && (
+                                      <ol className="space-y-0.5 text-xs text-muted-foreground list-decimal list-inside">
+                                        {afResult.steps.map((step, i) => (
+                                          <li key={i}>{step}</li>
+                                        ))}
+                                      </ol>
+                                    )}
+                                    {afResult.estimatedImpact && (
+                                      <p className="text-xs text-emerald-400/80">
+                                        Expected impact: {afResult.estimatedImpact}
+                                      </p>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            {afResult?.error && (
+                              <div className="mt-1 ml-7 flex items-center gap-2 text-xs text-red-400">
+                                <XCircle className="size-3 shrink-0" />
+                                {afResult.error}
+                              </div>
                             )}
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm">{fix.description}</p>
-                            {fix.code && (
-                              <pre className="mt-2 p-2 rounded bg-black/30 text-xs text-muted-foreground overflow-x-auto">
-                                <code>{fix.code}</code>
-                              </pre>
-                            )}
-                          </div>
-                          <FixBadge severity={fix.severity} />
-                        </div>
-                      ))
+                        );
+                      })
                     )}
                   </div>
                 )}
