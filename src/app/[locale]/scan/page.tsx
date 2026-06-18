@@ -4,7 +4,7 @@ import { useState, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { AI_PROVIDERS_CONFIG, type AIProvider } from "@/lib/ai/providers";
+import { type AIProvider } from "@/lib/ai/providers";
 import { LANGUAGES } from "@/lib/constants";
 import { ScanResult } from "@/lib/types";
 import {
@@ -92,7 +92,7 @@ function isValidUrl(url: string): boolean {
 
 export default function ScanPage() {
   const [url, setUrl] = useState("");
-  const [provider, setProvider] = useState<AIProvider>("claude");
+  const [provider, setProvider] = useState<AIProvider>("gemini");
   const [language, setLanguage] = useState("en");
   const [status, setStatus] = useState<ScanStatus>("idle");
   const [scan, setScan] = useState<ScanResult | null>(null);
@@ -261,28 +261,47 @@ export default function ScanPage() {
         </Card>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-          <div>
-            <label className="text-sm font-medium mb-2 block">AI Model</label>
-            <div className="grid grid-cols-2 gap-2">
-              {(Object.keys(AI_PROVIDERS_CONFIG) as AIProvider[]).map((p) => (
+<div>
+              <label className="text-sm font-medium mb-2 block">Analysis Level</label>
+              <div className="space-y-2">
                 <button
-                  key={p}
-                  onClick={() => setProvider(p)}
+                  onClick={() => setProvider("gemini")}
                   disabled={status === "scanning" || status === "enhancing"}
-                  className={`p-3 rounded-xl border text-left transition-all ${
-                    provider === p
+                  className={`w-full p-3 rounded-xl border text-left transition-all ${
+                    provider === "gemini"
                       ? "border-primary bg-primary/10"
                       : "border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04]"
                   } disabled:opacity-50`}
                 >
-                  <p className="text-sm font-medium">{AI_PROVIDERS_CONFIG[p].provider}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {AI_PROVIDERS_CONFIG[p].description}
-                  </p>
+                  <p className="text-sm font-medium">Quick Analysis</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Free — Fast scan with AI insights</p>
                 </button>
-              ))}
+                <button
+                  onClick={() => setProvider("deepseek")}
+                  disabled={status === "scanning" || status === "enhancing"}
+                  className={`w-full p-3 rounded-xl border text-left transition-all ${
+                    provider === "deepseek"
+                      ? "border-primary bg-primary/10"
+                      : "border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04]"
+                  } disabled:opacity-50`}
+                >
+                  <p className="text-sm font-medium">Deep Analysis</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Detailed report with action plan</p>
+                </button>
+                <button
+                  onClick={() => setProvider("claude")}
+                  disabled={status === "scanning" || status === "enhancing"}
+                  className={`w-full p-3 rounded-xl border text-left transition-all ${
+                    provider === "claude"
+                      ? "border-primary bg-primary/10"
+                      : "border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04]"
+                  } disabled:opacity-50`}
+                >
+                  <p className="text-sm font-medium">Expert Analysis</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Premium — Most comprehensive report</p>
+                </button>
+              </div>
             </div>
-          </div>
 
           <div>
             <label className="text-sm font-medium mb-2 block">Report Language</label>
