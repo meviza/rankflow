@@ -1,15 +1,10 @@
-import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
+import type { Metadata } from 'next';
 
-const locales = ['en', 'tr', 'de', 'fr', 'es', 'it', 'pt', 'ru', 'ar', 'zh'] as const;
-const defaultLocale = 'en';
+export const metadata: Metadata = {
+  title: 'RankFlow — AI-Powered SEO & GEO Analytics',
+  description: 'Optimize your website for Google and AI search engines.',
+};
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const headersList = await headers();
-  const acceptLanguage = headersList.get('accept-language') || '';
-
-  const browserLocale = acceptLanguage.split(',')[0]?.substring(0, 2);
-  const matchedLocale = locales.includes(browserLocale as never) ? browserLocale : defaultLocale;
-
-  redirect(`/${matchedLocale}`);
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return children;
 }
