@@ -5,6 +5,7 @@ import { Menu, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 const navLinks = [
   { href: "#features", label: "Features" },
@@ -16,6 +17,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10)
@@ -51,7 +53,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button size="lg" className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-700 hover:to-fuchsia-700">
+          <Button size="lg" className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-700 hover:to-fuchsia-700" onClick={() => router.push("/scan")}>
             Get Started
             <ChevronRight className="size-4" />
           </Button>
@@ -74,7 +76,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                onClick={() => { setOpen(false); router.push("/scan") }}
                   className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
                 >
                   {link.label}

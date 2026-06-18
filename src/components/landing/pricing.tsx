@@ -6,6 +6,7 @@ import { Check, Zap, Building2, Rocket } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 const plans = [
   {
@@ -68,6 +69,7 @@ const plans = [
 
 export default function Pricing() {
   const [yearly, setYearly] = useState(false)
+  const router = useRouter()
 
   return (
     <section id="pricing" className="py-20 lg:py-28">
@@ -169,6 +171,7 @@ export default function Pricing() {
                         : ""
                     )}
                     variant={plan.popular ? "default" : "outline"}
+                    onClick={() => router.push("/auth/register")}
                   >
                     {plan.cta}
                   </Button>

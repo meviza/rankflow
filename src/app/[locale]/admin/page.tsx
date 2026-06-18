@@ -13,10 +13,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { createClient } from "@/lib/db/supabase";
-
 export default function AdminPage() {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalScans: 0,
@@ -42,57 +41,19 @@ export default function AdminPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const supabase = createClient();
-
-      const [
-        { count: totalUsers },
-        { data: profiles },
-        { count: totalScans },
-        { count: scansToday },
-        { data: scansData },
-        { data: requestsData },
-      ] = await Promise.all([
-        supabase.from("profiles").select("*", { count: "exact", head: true }),
-        supabase.from("profiles").select("plan"),
-        supabase.from("scans").select("*", { count: "exact", head: true }),
-        supabase
-          .from("scans")
-          .select("*", { count: "exact", head: true })
-          .gte("created_at", new Date().toISOString().split("T")[0]),
-        supabase
-          .from("scans")
-          .select("id, url, status, provider, created_at")
-          .order("created_at", { ascending: false })
-          .limit(10),
-        supabase
-          .from("feature_requests")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(20),
-      ]);
-
-      const planCounts = {
-        starter: 0,
-        pro: 0,
-        agency: 0,
-      };
-      profiles?.forEach((p: { plan: string }) => {
-        if (p.plan in planCounts) {
-          planCounts[p.plan as keyof typeof planCounts]++;
-        }
-      });
-
-      setStats({
-        totalUsers: totalUsers ?? 0,
-        totalScans: totalScans ?? 0,
-        scansToday: scansToday ?? 0,
-        ...planCounts,
-      });
-      if (scansData) setRecentScans(scansData);
-      if (requestsData) setFeatureRequests(requestsData);
-      setLoading(false);
+      try {
+        const res = await fetch("/api/admin");
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        setStats(data.stats);
+        setRecentScans(data.recentScans || []);
+        setFeatureRequests(data.featureRequests || []);
+      } catch (err: any) {
+        setError(err.message || "Failed to load data");
+      } finally {
+        setLoading(false);
+      }
     }
-
     fetchData();
   }, []);
 

@@ -3,8 +3,10 @@
 import { motion } from "framer-motion"
 import { ArrowRight, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 export default function CtaSection() {
+  const router = useRouter()
   return (
     <section className="py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
@@ -27,6 +29,7 @@ export default function CtaSection() {
               <Button
                 size="lg"
                 className="h-12 px-8 text-base bg-white text-violet-700 hover:bg-violet-50"
+                onClick={() => router.push("/scan")}
               >
                 Scan Your Website
                 <ArrowRight className="size-5" />
@@ -35,6 +38,9 @@ export default function CtaSection() {
                 variant="outline"
                 size="lg"
                 className="h-12 px-8 text-base border-white/30 bg-white/10 text-white hover:bg-white/20"
+                onClick={() => {
+                  const el = document.getElementById("request-box"); if (el) el.scrollIntoView({ behavior: "smooth" })
+                }}
               >
                 <MessageCircle className="size-4" />
                 Contact Sales

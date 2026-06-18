@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { ArrowRight, Play, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 const stats = [
   { label: "AI Models", value: "3" },
@@ -25,6 +26,7 @@ const itemVariants = {
 }
 
 export default function Hero() {
+  const router = useRouter()
   return (
     <section className="relative overflow-hidden pt-28 pb-20 lg:pt-40 lg:pb-32">
       <div className="absolute inset-0 -z-10">
@@ -69,11 +71,20 @@ export default function Hero() {
           <Button
             size="lg"
             className="h-12 px-8 text-base bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-700 hover:to-fuchsia-700"
+            onClick={() => router.push("/scan")}
           >
             Start Free Scan
             <ArrowRight className="size-5" />
           </Button>
-          <Button variant="outline" size="lg" className="h-12 px-8 text-base">
+          <Button
+            variant="outline"
+            size="lg"
+            className="h-12 px-8 text-base"
+            onClick={() => {
+              const el = document.getElementById("demo-report")
+              if (el) el.scrollIntoView({ behavior: "smooth" })
+            }}
+          >
             <Play className="size-4" />
             See Demo Report
           </Button>
