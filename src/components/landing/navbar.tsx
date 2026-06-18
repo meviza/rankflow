@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useLocale } from "next-intl"
 
 const navLinks = [
   { href: "#features", label: "Features" },
@@ -17,6 +18,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const router = useRouter()
+  const locale = useLocale()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10)
@@ -50,6 +52,18 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
+          <Link
+            href={`/${locale}/auth/login`}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Log in
+          </Link>
+          <Link
+            href={`/${locale}/auth/register`}
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-9 px-3 border border-emerald-600 text-emerald-600 transition-colors hover:bg-emerald-600 hover:text-white"
+          >
+            Sign up
+          </Link>
           <Button
             size="lg"
             className="bg-emerald-600 text-white hover:bg-emerald-700"
@@ -81,10 +95,24 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href={`/${locale}/auth/login`}
+                onClick={() => setOpen(false)}
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
+              >
+                Log in
+              </Link>
+              <Link
+                href={`/${locale}/auth/register`}
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 w-full border border-emerald-600 text-emerald-600 transition-colors hover:bg-emerald-600 hover:text-white"
+              >
+                Sign up
+              </Link>
               <Button
                 size="lg"
                 className="mt-4 bg-emerald-600 text-white hover:bg-emerald-700 w-full"
-                onClick={() => { setOpen(false); router.push("/scan") }}
+                onClick={() => setOpen(false)}
               >
                 Get Started
                 <ChevronRight className="size-4" />
