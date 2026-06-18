@@ -76,7 +76,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                onClick={() => { setOpen(false); router.push("/scan") }}
+                onClick={() => setOpen(false)}
                   className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
                 >
                   {link.label}
@@ -85,7 +85,7 @@ export default function Navbar() {
               <Button
                 size="lg"
                 className="mt-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-700 hover:to-fuchsia-700 w-full"
-                onClick={() => setOpen(false)}
+                onClick={() => { setOpen(false); router.push("/scan") }}
               >
                 Get Started
                 <ChevronRight className="size-4" />

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import {
   BarChart3,
   Users,
@@ -14,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 export default function AdminPage() {
+  const locale = useLocale();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [stats, setStats] = useState({
@@ -42,7 +44,10 @@ export default function AdminPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("/api/admin");
+        const adminSecret = localStorage.getItem("admin_secret") || "";
+        const res = await fetch("/api/admin", {
+          headers: adminSecret ? { Authorization: `Bearer ${adminSecret}` } : {},
+        });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
         setStats(data.stats);
@@ -67,10 +72,10 @@ export default function AdminPage() {
             <Badge variant="warning" className="ml-2">Admin</Badge>
           </div>
           <nav className="flex items-center gap-3">
-            <Link href="/dashboard">
+            <Link href={`/${locale}/dashboard`}>
               <Button variant="ghost" size="sm">Dashboard</Button>
             </Link>
-            <Link href="/">
+            <Link href={`/${locale}`}>
               <Button variant="outline" size="sm">Home</Button>
             </Link>
           </nav>

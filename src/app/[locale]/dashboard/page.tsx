@@ -17,7 +17,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { createClient } from "@/lib/db/supabase";
+import { createClient } from "@/lib/supabase/client";
 
 const PLAN_LIMITS: Record<string, number> = {
   starter: 1,

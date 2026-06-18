@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { createClient } from "@/lib/db/supabase";
+import { createClient } from "@/lib/supabase/client";
 
 const SCORE_LABELS: Record<string, string> = {
   overall: "Overall",

@@ -29,7 +29,7 @@ CREATE TABLE fixes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   scan_id UUID REFERENCES scans(id) ON DELETE CASCADE,
   type TEXT NOT NULL,
-  severity TEXT CHECK (severity IN ('critical','medium','low')),
+  severity TEXT CHECK (severity IN ('critical','high','medium','low')),
   description TEXT,
   code TEXT,
   applied BOOLEAN DEFAULT FALSE,
@@ -95,3 +95,19 @@ CREATE TRIGGER update_profiles_updated_at
   BEFORE UPDATE ON profiles
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
+
+-- Trigger to increment scans_this_month when a scan is created
+CREATE OR REPLACE FUNCTION increment_scan_count()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE profiles
+  SET scans_this_month = scans_this_month + 1
+  WHERE id = NEW.user_id;
+  RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER trigger_increment_scan_count
+  AFTER INSERT ON scans
+  FOR EACH ROW
+  EXECUTE FUNCTION increment_scan_count();
