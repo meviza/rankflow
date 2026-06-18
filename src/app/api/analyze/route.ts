@@ -89,10 +89,51 @@ async function callGLM(prompt: string): Promise<string> {
   return data.choices?.[0]?.message?.content ?? "";
 }
 
+async function callGemini(prompt: string): Promise<string> {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) return "[Gemini API key not configured — get your free key at https://aistudio.google.com/apikey]";
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 4096 },
+      }),
+    }
+  );
+  if (!res.ok) throw new Error(`Gemini API error: ${res.status} ${await res.text()}`);
+  const data = await res.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+}
+
+async function callGroq(prompt: string): Promise<string> {
+  const key = process.env.GROQ_API_KEY;
+  if (!key) return "[Groq API key not configured — get your free key at https://console.groq.com/keys]";
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${key}`,
+    },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      max_tokens: 4096,
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
+  if (!res.ok) throw new Error(`Groq API error: ${res.status} ${await res.text()}`);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content ?? "";
+}
+
 const AI_CALLERS: Record<AIProvider, (prompt: string) => Promise<string>> = {
+  gemini: callGemini,
+  groq: callGroq,
+  deepseek: callDeepSeek,
   claude: callClaude,
   gpt: callGPT,
-  deepseek: callDeepSeek,
   glm: callGLM,
 };
 
